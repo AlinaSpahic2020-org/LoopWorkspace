@@ -12,8 +12,7 @@ env:
   UPSTREAM_REPO: LoopKit/LoopWorkspace
   UPSTREAM_BRANCH: ${{ github.ref_name }} # branch on upstream repository to sync from (replace with specific branch name if needed)
   TARGET_BRANCH: ${{ github.ref_name }} # target branch on fork to be kept in sync
-  DISABLE_LIVE_ACTIVITIES: "true"
-  DISABLE_WIDGET_EXTENSION: "true"
+
 jobs:
   # use a single runner for these sequential steps
   check_status:
@@ -166,7 +165,7 @@ jobs:
   build:
     name: Build
     needs: [check_certs, check_status]
-    runs-on: macos-14
+    runs-on: macos-26
     permissions:
       contents: write
     if:
@@ -176,7 +175,7 @@ jobs:
         (vars.SCHEDULED_SYNC != 'false' && needs.check_status.outputs.NEW_COMMITS == 'true' )
     steps:
       - name: Select Xcode version
-        run: "sudo xcode-select --switch /Applications/Xcode_15.4.app/Contents/Developer"
+        run: "sudo xcode-select --switch /Applications/Xcode_26.4.app/Contents/Developer"
 
       - name: Checkout Repo for building
         uses: actions/checkout@v5
